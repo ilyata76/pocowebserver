@@ -1,0 +1,23 @@
+#pragma once
+
+#ifndef PWS_CONFIG_H
+#define PWS_CONFIG_H
+
+	constexpr auto config_app_folder = "@CMAKE_CURRENT_LIST_DIR@";
+	constexpr auto config_app_binary_folder = "@CMAKE_RUNTIME_OUTPUT_DIRECTORY@";
+	constexpr auto config_libs_folder = "@CMAKE_LIBRARY_OUTPUT_DIRECTORY@";
+	constexpr auto config_cmake_binary_folder = "@CMAKE_BINARY_DIR@";
+	constexpr auto config_project_version = "@CMAKE_PROJECT_VERSION@";
+	constexpr auto config_cmake_version = "@CMAKE_VERSION@";
+	constexpr auto config_argc = "@CMAKE_ARGC@";
+	constexpr auto config_argv0 = "@CMAKE_ARGV0@";
+	constexpr auto config_build_tool = "@CMAKE_BUILD_TOOL@";
+	constexpr auto config_cpp_standard = "@CMAKE_CXX_STANDARD@";
+	constexpr auto config_cpp_standard_required = "@CMAKE_CXX_STANDARD_REQUIRED@";
+	constexpr auto config_project_name = "@PROJECT_NAME@";
+	constexpr auto config_platform = "@CMAKE_VS_PLATFORM_NAME@";
+	constexpr auto config_system_name = "@CMAKE_SYSTEM_NAME@";
+	constexpr auto config_system_processor = "@CMAKE_SYSTEM_PROCESSOR@";
+	constexpr auto config_system_version = "@CMAKE_SYSTEM_VERSION@";
+
+#endif // !PWS_CONFIG_H
