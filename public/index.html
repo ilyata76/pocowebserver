@@ -1,0 +1,39 @@
+<html>
+    <head>
+
+        <title>html title</title>
+
+        <link rel="stylesheet" type="text/css" href="css/main.css">
+
+        <script src="js/onclick.js"></script>
+
+    </head>
+
+    <body>
+
+        <header>
+            <h1>HEllo from intex.html</h1>
+        </header>
+
+        <section>
+
+            <p style="text-align:center"><code>.jpg</code> <br/> <img src="img/jpg_icon.jpg" alt="jpg icon" style="width: 100px"></p>
+            
+            <p style="text-align:center;"><code>.png</code> <br/> <img src="img/png_icon.png" alt="png icon" style="width: 100px"></p>
+            
+            <p class="p-colored" style="text-align: center;">/css/main.css тоже был обработан по RESTful как и /js/onclick.js</p>
+
+            <form action="/api/form" method="get" class="formGET">
+                <input type="text" name="namePerson" class="namePerson" placeholder="?!">
+                <input type="submit" name="sub" value="GET" onclick="compl_get();">
+            </form>
+
+            <form method="post" class="formPOST">
+                <input type="text" name="namePerson" class="namePerson" placeholder="?!">
+                <input type="submit" name="sub" value="POST" onclick="compl_post();">
+            </form>
+
+        </section>
+    
+    </body>
+</html>

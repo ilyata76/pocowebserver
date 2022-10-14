@@ -1,6 +1,22 @@
 #include <iostream>
 #include <server/serverapplication.hpp>
 
+
+
 int main(int argc, char** argv) {
-	return 0;
+
+	try {
+ 
+		PWS::Server app;
+		return app.run(argc, argv);
+
+
+
+	} catch (Poco::Exception& exc) { // exc от поки
+		std::cerr << exc.displayText() << std::endl;
+		return Poco::Util::Application::EXIT_SOFTWARE;
+	} catch (std::exception& exc) { // exc от стандартной библиотеки
+		std::cerr << exc.what() << std::endl;
+		return 1;
+	}
 }

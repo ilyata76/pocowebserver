@@ -19,6 +19,7 @@
 	#include <pws_config.h>
 
 	namespace PWS {
+
 		class HTMLHandler : public Poco::Net::HTTPRequestHandler {
 			private:
 				Poco::URI uri;
@@ -27,6 +28,7 @@
 				HTMLHandler(Poco::URI uri);
 				void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) override;
 		};
+
 	}
 
 
