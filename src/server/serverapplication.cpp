@@ -8,6 +8,8 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 	Poco::URI uri{ request.getURI() };
 	Poco::Path path{ uri.getPath() };
 
+	bool is_error = (path.directory(0) == "error" || path.directory(0) == "error.html");
+
 	bool is_html_file = (
 		(
 			path.getExtension() == "html" || path.getExtension() == ""
@@ -16,19 +18,36 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 		)
 	);
 
+
+
+	//
+
 	std::stringstream ss;
 	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue	 << request.getURI() << termcolor::reset << "  |  " << termcolor::nocolorize;
 	this->console_logger->information(ss.str());
 	
-	if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
+	//
+
+
+
+
+	if (is_error) {
+		return new ErrorHTMLHandler{ uri, console_logger };
+	} else if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
 		return new HTMLHandler{ uri, console_logger };
 	}
+
+
+
+
+
+	//
 
 	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  " 
 			<< termcolor::red << "Handler was not found" << termcolor::reset << termcolor::nocolorize;
 	this->console_logger->error(ss.str());
 
-	return nullptr; // TODO: htmlerror
+	return new ErrorHTMLHandler{ uri, console_logger }; // TODO: htmlerror
 }
 
 int PWS::Server::main(const std::vector<std::string>& args) {
@@ -75,7 +94,7 @@ int PWS::Server::main(const std::vector<std::string>& args) {
 
 	waitForTerminationRequest();
 
-	ss.str(""); ss << std::endl << termcolor::colorize << termcolor::green << "STOPPING SERVER" << termcolor::reset << termcolor::nocolorize;
+	ss.str(""); ss << termcolor::colorize << termcolor::green << "STOPPING SERVER" << termcolor::reset << termcolor::nocolorize;
 	console_logger.information(ss.str());
 
 	server.stop();

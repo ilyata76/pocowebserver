@@ -21,6 +21,7 @@
 	#include <termcolor/termcolor.hpp>
 
 	#include <server/handlers/htmlhandler.hpp>
+	#include <server/handlers/errorhtmlhandler.hpp>
 
 	namespace PWS {
 

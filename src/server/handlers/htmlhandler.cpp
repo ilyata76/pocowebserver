@@ -10,7 +10,6 @@ PWS::HTMLHandler::HTMLHandler(Poco::URI uri, Poco::Logger::Ptr console_logger) :
 
 void PWS::HTMLHandler::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
 	
-	std::ostream& reply = response.send();
 	std::fstream file;	std::stringstream ss;
 
 	Poco::Path path{ this->uri.getPath() };
@@ -19,17 +18,29 @@ void PWS::HTMLHandler::handleRequest(Poco::Net::HTTPServerRequest& request, Poco
 
 	file.open(ss.str().c_str(), std::ios::in);
 
-	Poco::StreamCopier::copyStream(file, reply);
+	if (file.is_open()) {
 
-	file.close();
-	
-	response.setContentType("text/html\r\n");
+		std::ostream& reply = response.send();
 
-	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
-		<< termcolor::blue << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
-	this->console_logger->error(ss.str());
+		Poco::StreamCopier::copyStream(file, reply);
 
-	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK); // 200
+		file.close();
 
+		response.setContentType("text/html\r\n");
+
+		ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
+			<< termcolor::green << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
+		this->console_logger->information(ss.str());
+
+		response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK); // 200
+	} else {
+		file.close();
+
+		ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
+			<< termcolor::red << Poco::Net::HTTPServerResponse::HTTP_MOVED_PERMANENTLY << termcolor::reset << termcolor::nocolorize;
+		this->console_logger->information(ss.str());
+
+		response.redirect("/error", Poco::Net::HTTPServerResponse::HTTP_MOVED_PERMANENTLY);
+	}
 	return;
 }

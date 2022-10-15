@@ -13,12 +13,22 @@ set (ENTRYPOINT_PWS
 
 set (HEADERS_PWS
     "${CMAKE_CURRENT_LIST_DIR}/include/server/serverapplication.hpp"
+    "${CMAKE_CURRENT_LIST_DIR}/include/server/useful_functions.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/htmlhandler.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/csshandler.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/jshandler.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/imghandler.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/errorhtmlhandler.hpp"
 )
 
 set(SOURCES_PWS
     "${CMAKE_CURRENT_LIST_DIR}/src/server/serverapplication.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/src/server/useful_functions.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/htmlhandler.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/csshandler.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/jshandler.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/imghandler.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/errorhtmlhandler.cpp"
 )
 
 set(RESOURCES_PWS
