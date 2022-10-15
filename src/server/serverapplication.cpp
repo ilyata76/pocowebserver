@@ -27,7 +27,6 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 }
 
 int PWS::Server::main(const std::vector<std::string>& args) {
-	// TODO: логер не очень полезный - надо взякой фигни понапихать
 	// creating console logger
 
 	Poco::PatternFormatter::Ptr console_pattern_formatter{ new Poco::PatternFormatter {"[PWS][%Y-%m-%d:%H%M%S][%p] %t"} };
@@ -37,38 +36,42 @@ int PWS::Server::main(const std::vector<std::string>& args) {
 	Poco::Logger& console_logger = Poco::Logger::create("ConsoleLogger", pFCConsole);
 
 	//
-
-	console_logger.information("preparing server params");
+	
+	console_logger.information("Preparing server params");
 
 	Poco::Net::HTTPServerParams::Ptr params{ new Poco::Net::HTTPServerParams{} };
 		params->setMaxQueued(50);
 		params->setMaxThreads(4);
 
-	console_logger.information("reading port from config");
+	console_logger.information("Reading port from config");
 
 	std::stringstream ss; ss << config_app_folder << "/config.toml";
 		auto data = toml::parse(ss.str().c_str());
 		auto port = static_cast<int>(data["PORT"].as_integer());
 
-	console_logger.information("PORT " + std::to_string(port) + ", preparing socket");
+
+	ss.str(""); ss << termcolor::colorize << termcolor::green << "PORT " << port << termcolor::reset << ", preparing socket" << termcolor::nocolorize;
+	console_logger.information(ss.str());
 
 	Poco::Net::ServerSocket socket{ static_cast<Poco::UInt16>(port) };
 
-	console_logger.information("creating fabric");
+	console_logger.information("Creating fabric");
 
 	RequestFactory::Ptr request_factory{ new RequestFactory{ &console_logger } };
 
-	console_logger.information("creating server");
+	console_logger.information("Creating server");
 
 	Poco::Net::HTTPServer server{ request_factory, socket, params };
 
-	console_logger.information("STARTING SERVER");
+	ss.str(""); ss << termcolor::colorize << termcolor::green << "STARTING SERVER" << termcolor::reset << termcolor::nocolorize;
+	console_logger.information(ss.str());
 
 	server.start();
 
 	waitForTerminationRequest();
 
-	console_logger.information("STOPPING SERVER");
+	ss.str(""); ss << termcolor::colorize << termcolor::green << "STOPPING SERVER" << termcolor::reset << termcolor::nocolorize;
+	console_logger.information(ss.str());
 
 	server.stop();
 

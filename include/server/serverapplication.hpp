@@ -18,6 +18,8 @@
 
 	#include <toml/toml.hpp>
 
+	#include <termcolor/termcolor.hpp>
+
 	#include <server/handlers/htmlhandler.hpp>
 
 	namespace PWS {

@@ -18,6 +18,8 @@
 
 	#include <Poco/Logger.h>
 
+	#include <termcolor/termcolor.hpp>
+
 	#include <pws_config.h>
 
 	namespace PWS {
