@@ -16,9 +16,10 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 		)
 	);
 
+	this->console_logger->information(request.getMethod() + "  |  " + request.getURI() + "  |  ");
 	if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
-		this->console_logger->information("creating html handler"); // TODO: םמנלאכüםûי כמדדונ ס לועמהמל ט ןנ.
-		return new HTMLHandler{ uri };
+		this->console_logger->information("creating html handler");
+		return new HTMLHandler{ uri, console_logger };
 	}
 
 	this->console_logger->error("handler was not found");
@@ -49,7 +50,7 @@ int PWS::Server::main(const std::vector<std::string>& args) {
 		auto data = toml::parse(ss.str().c_str());
 		auto port = static_cast<int>(data["PORT"].as_integer());
 
-	console_logger.information("preparing fabric");
+	console_logger.information("PORT " + std::to_string(port) + ", preparing socket");
 
 	Poco::Net::ServerSocket socket{ static_cast<Poco::UInt16>(port) };
 
@@ -61,13 +62,13 @@ int PWS::Server::main(const std::vector<std::string>& args) {
 
 	Poco::Net::HTTPServer server{ request_factory, socket, params };
 
-	console_logger.information("starting server");
+	console_logger.information("STARTING SERVER");
 
 	server.start();
 
 	waitForTerminationRequest();
 
-	console_logger.information("stopping server");
+	console_logger.information("STOPPING SERVER");
 
 	server.stop();
 

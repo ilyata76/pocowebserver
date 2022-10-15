@@ -1,0 +1,6 @@
+[submodule "libs/poco"]
+	path = libs/poco
+	url = git@github.com:pocoproject/poco.git
+[submodule "libs/toml"]
+	path = libs/toml
+	url = git@github.com:ToruNiina/toml11.git

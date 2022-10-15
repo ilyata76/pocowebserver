@@ -16,16 +16,19 @@
 	#include <Poco/URI.h>	
 	#include <Poco/Path.h>
 
+	#include <Poco/Logger.h>
+
 	#include <pws_config.h>
 
 	namespace PWS {
 
 		class HTMLHandler : public Poco::Net::HTTPRequestHandler {
 			private:
+				Poco::Logger::Ptr console_logger;
 				Poco::URI uri;
 			public:
 				HTMLHandler();
-				HTMLHandler(Poco::URI uri);
+				HTMLHandler(Poco::URI uri, Poco::Logger::Ptr console_logger);
 				void handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) override;
 		};
 
