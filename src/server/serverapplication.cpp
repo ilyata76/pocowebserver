@@ -17,16 +17,15 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 	);
 
 	std::stringstream ss;
-	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::cyan << request.getURI() << termcolor::reset << "  |  " << termcolor::nocolorize;
+	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  " << termcolor::nocolorize;
 	this->console_logger->information(ss.str());
 	
 	if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
-		this->console_logger->information("Creating html handler");
 		return new HTMLHandler{ uri, console_logger };
 	}
 
-	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::cyan << request.getURI() << termcolor::reset << "  |  " 
-			<< termcolor::red << "Handler was not found" << termcolor::nocolorize;
+	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  " 
+			<< termcolor::red << "Handler was not found" << termcolor::reset << termcolor::nocolorize;
 	this->console_logger->error(ss.str());
 
 	return nullptr; // TODO: htmlerror
@@ -35,7 +34,7 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 int PWS::Server::main(const std::vector<std::string>& args) {
 	// creating console logger
 
-	Poco::PatternFormatter::Ptr console_pattern_formatter{ new Poco::PatternFormatter {"[PWS][%Y-%m-%d:%H%M%S][%p] %t"} };
+	Poco::PatternFormatter::Ptr console_pattern_formatter{ new Poco::PatternFormatter {"[PWS][%Y-%m-%d:%H%M%S][%p] \t %t"} };
 	Poco::FormattingChannel::Ptr pFCConsole{ new Poco::FormattingChannel{console_pattern_formatter} };
 	pFCConsole->setChannel(new Poco::ConsoleChannel{});
 	pFCConsole->open();

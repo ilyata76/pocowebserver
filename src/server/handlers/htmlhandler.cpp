@@ -17,8 +17,6 @@ void PWS::HTMLHandler::handleRequest(Poco::Net::HTTPServerRequest& request, Poco
 
 	ss << config_app_folder << "/public" << (path.directory(0) == "" ? "/index.html" : this->uri.getPath());
 
-	this->console_logger->information("Path: " + ss.str());
-
 	file.open(ss.str().c_str(), std::ios::in);
 
 	Poco::StreamCopier::copyStream(file, reply);
@@ -27,8 +25,9 @@ void PWS::HTMLHandler::handleRequest(Poco::Net::HTTPServerRequest& request, Poco
 	
 	response.setContentType("text/html\r\n");
 
-	ss.str(""); ss << termcolor::colorize << "Response: " << termcolor::green << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
-	this->console_logger->information(ss.str());
+	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
+		<< termcolor::blue << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
+	this->console_logger->error(ss.str());
 
 	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK); // 200
 
