@@ -22,6 +22,9 @@
 
 	#include <server/handlers/htmlhandler.hpp>
 	#include <server/handlers/errorhtmlhandler.hpp>
+	#include <server/handlers/imghandler.hpp>
+	#include <server/handlers/csshandler.hpp>
+	#include <server/handlers/jshandler.hpp>
 
 	namespace PWS {
 

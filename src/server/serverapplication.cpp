@@ -18,7 +18,10 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 		)
 	);
 
-
+	bool is_image = (path.directory(0) == "img");
+	bool is_css = (path.directory(0) == "css" || path.directory(0) == "scss");
+	bool is_js = (path.directory(0) == "js");
+	bool is_api = (path.directory(0) == "api");
 
 	//
 
@@ -26,20 +29,26 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue	 << request.getURI() << termcolor::reset << "  |  " << termcolor::nocolorize;
 	this->console_logger->information(ss.str());
 	
-	//
+	// non API
 
-
-
-
-	if (is_error) {
-		return new ErrorHTMLHandler{ uri, console_logger };
-	} else if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
-		return new HTMLHandler{ uri, console_logger };
+	if (request.getMethod() == "GET") {
+		if (is_error) {
+			return new ErrorHTMLHandler{ uri, console_logger };
+		} else if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
+			return new HTMLHandler{ uri, console_logger };
+		} else if (is_image) {
+			return new IMGHandler{ uri, console_logger };
+		} else if (is_css) {
+			return new CSSHandler{ uri, console_logger };
+		} else if (is_js) {
+			return new JSHandler{ uri, console_logger };
+		}
 	}
 
+	//
+	// API
 
-
-
+	// return apihandler ... getmethod ...
 
 	//
 
