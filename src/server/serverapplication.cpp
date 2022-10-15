@@ -16,13 +16,19 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 		)
 	);
 
-	this->console_logger->information(request.getMethod() + "  |  " + request.getURI() + "  |  ");
+	std::stringstream ss;
+	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::cyan << request.getURI() << termcolor::reset << "  |  " << termcolor::nocolorize;
+	this->console_logger->information(ss.str());
+	
 	if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
-		this->console_logger->information("creating html handler");
+		this->console_logger->information("Creating html handler");
 		return new HTMLHandler{ uri, console_logger };
 	}
 
-	this->console_logger->error("handler was not found");
+	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::cyan << request.getURI() << termcolor::reset << "  |  " 
+			<< termcolor::red << "Handler was not found" << termcolor::nocolorize;
+	this->console_logger->error(ss.str());
+
 	return nullptr; // TODO: htmlerror
 }
 

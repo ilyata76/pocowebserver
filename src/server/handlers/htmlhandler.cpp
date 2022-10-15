@@ -27,9 +27,10 @@ void PWS::HTMLHandler::handleRequest(Poco::Net::HTTPServerRequest& request, Poco
 	
 	response.setContentType("text/html\r\n");
 
+	ss.str(""); ss << termcolor::colorize << "Response: " << termcolor::green << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
+	this->console_logger->information(ss.str());
+
 	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK); // 200
-	
-	this->console_logger->information("Response: " + response.getStatus());
 
 	return;
 }
