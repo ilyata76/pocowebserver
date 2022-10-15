@@ -4,3 +4,6 @@
 [submodule "libs/toml"]
 	path = libs/toml
 	url = git@github.com:ToruNiina/toml11.git
+[submodule "libs/termcolor"]
+	path = libs/termcolor
+	url = git@github.com:ikalnytskyi/termcolor.git

@@ -1,12 +1,15 @@
 #include <iostream>
 #include <server/serverapplication.hpp>
 
+#include <termcolor/termcolor.hpp>
 
 
 int main(int argc, char** argv) {
 
 	try {
- 
+		std::stringstream ss;
+		ss << termcolor::colorize << termcolor::red << "abobus!\n";
+		std::cout << ss.str();
 		PWS::Server app;
 		return app.run(argc, argv);
 

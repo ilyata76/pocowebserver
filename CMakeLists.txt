@@ -46,6 +46,10 @@ add_subdirectory(
     "${CMAKE_CURRENT_LIST_DIR}/libs/toml"
 )
 
+add_subdirectory(
+    "${CMAKE_CURRENT_LIST_DIR}/libs/termcolor"
+)
+
 ###
 
 add_executable(
@@ -76,4 +80,5 @@ add_executable(
     target_link_libraries(
         ${PWS}
             toml11::toml11
+            termcolor::termcolor
 	)
