@@ -17,7 +17,7 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 	);
 
 	std::stringstream ss;
-	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  " << termcolor::nocolorize;
+	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue	 << request.getURI() << termcolor::reset << "  |  " << termcolor::nocolorize;
 	this->console_logger->information(ss.str());
 	
 	if (is_html_file || (path.directory(0) == "/" || path.directory(0) == "")) {
@@ -75,7 +75,7 @@ int PWS::Server::main(const std::vector<std::string>& args) {
 
 	waitForTerminationRequest();
 
-	ss.str(""); ss << termcolor::colorize << termcolor::green << "STOPPING SERVER" << termcolor::reset << termcolor::nocolorize;
+	ss.str(""); ss << std::endl << termcolor::colorize << termcolor::green << "STOPPING SERVER" << termcolor::reset << termcolor::nocolorize;
 	console_logger.information(ss.str());
 
 	server.stop();
