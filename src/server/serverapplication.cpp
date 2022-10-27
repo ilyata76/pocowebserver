@@ -59,6 +59,11 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 	return new ErrorHTMLHandler{ uri, console_logger }; // TODO: htmlerror
 }
 
+void PWS::Server::initialize(Poco::Util::Application& self) {
+	if (!PWS::loadEnvironment())
+		throw std::exception("environment error: invalid initialization");
+}
+
 int PWS::Server::main(const std::vector<std::string>& args) {
 	// creating console logger
 
@@ -78,10 +83,9 @@ int PWS::Server::main(const std::vector<std::string>& args) {
 
 	console_logger.information("Reading port from config");
 
-	std::stringstream ss; ss << config_app_folder << "/config.toml";
-		auto data = toml::parse(ss.str().c_str());
-		auto port = static_cast<int>(data["PORT"].as_integer());
+	auto port = std::stoi(Poco::Environment::get("POCO_SERVER_PORT"));
 
+	std::stringstream ss;
 
 	ss.str(""); ss << termcolor::colorize << termcolor::green << "PORT " << port << termcolor::reset << ", preparing socket" << termcolor::nocolorize;
 	console_logger.information(ss.str());

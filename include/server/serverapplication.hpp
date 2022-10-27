@@ -26,6 +26,8 @@
 	#include <server/handlers/csshandler.hpp>
 	#include <server/handlers/jshandler.hpp>
 
+	#include <server/base.hpp>
+
 	namespace PWS {
 
 		class RequestFactory : public Poco::Net::HTTPRequestHandlerFactory {
@@ -41,6 +43,8 @@
 		};
 
 		class Server : public Poco::Util::ServerApplication {
+
+			void initialize(Poco::Util::Application& self) override;
 
 			int main(const std::vector<std::string>& args) override;
 

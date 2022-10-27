@@ -1,10 +1,12 @@
 #include <iostream>
+
+
 #include <server/serverapplication.hpp>
+#include <server/base.hpp>
 
 int main(int argc, char** argv) {
 
 	try {
-
 		PWS::Server app;
 		return app.run(argc, argv);
 
