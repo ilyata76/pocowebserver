@@ -70,7 +70,7 @@ void PWS::Server::initialize(Poco::Util::Application& self) {
 
 
 	if (!PWS::loadEnvironment())
-		throw std::exception("environment error: invalid initialization");
+		throw Poco::Exception("environment error: invalid initialization");
 	this->console_logger->information("Environment variables have been loaded:");
 
 	std::stringstream ss;
