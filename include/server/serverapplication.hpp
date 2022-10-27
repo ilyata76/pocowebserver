@@ -44,6 +44,8 @@
 
 		class Server : public Poco::Util::ServerApplication {
 
+			Poco::Logger::Ptr console_logger;
+
 			void initialize(Poco::Util::Application& self) override;
 
 			int main(const std::vector<std::string>& args) override;

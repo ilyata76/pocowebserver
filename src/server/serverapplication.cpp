@@ -60,55 +60,67 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 }
 
 void PWS::Server::initialize(Poco::Util::Application& self) {
-	if (!PWS::loadEnvironment())
-		throw std::exception("environment error: invalid initialization");
-}
-
-int PWS::Server::main(const std::vector<std::string>& args) {
-	// creating console logger
 
 	Poco::PatternFormatter::Ptr console_pattern_formatter{ new Poco::PatternFormatter {"[PWS][%Y-%m-%d:%H%M%S][%p] \t %t"} };
 	Poco::FormattingChannel::Ptr pFCConsole{ new Poco::FormattingChannel{console_pattern_formatter} };
 	pFCConsole->setChannel(new Poco::ConsoleChannel{});
 	pFCConsole->open();
 	Poco::Logger& console_logger = Poco::Logger::create("ConsoleLogger", pFCConsole);
+	this->console_logger = &console_logger;
 
-	//
+
+	if (!PWS::loadEnvironment())
+		throw std::exception("environment error: invalid initialization");
+	this->console_logger->information("Environment variables have been loaded:");
+
+	std::stringstream ss;
+	ss << "Environment variables have been loaded:" << "\n";
+	ss << "\t\t\t\t\t POSTGRES_USER_NAME: " << Poco::Environment::get("POSTGRES_USER_NAME") << "\n";
+	ss << "\t\t\t\t\t POSTGRES_USER_PASSWORD: " << Poco::Environment::get("POSTGRES_USER_PASSWORD") << "\n";
+	ss << "\t\t\t\t\t POSTGRES_DB_NAME: " << Poco::Environment::get("POSTGRES_DB_NAME") << "\n";
+	ss << "\t\t\t\t\t POSTGRES_DB_HOST: " << Poco::Environment::get("POSTGRES_DB_HOST") << "\n";
+	ss << "\t\t\t\t\t POSTGRES_PORT: " << Poco::Environment::get("POSTGRES_PORT") << "\n";
+	ss << "\t\t\t\t\t POCO_SERVER_PORT: " << Poco::Environment::get("POCO_SERVER_PORT");
+
+	this->console_logger->information(ss.str().c_str());
+}
+
+int PWS::Server::main(const std::vector<std::string>& args) {
 	
-	console_logger.information("Preparing server params");
+	this->console_logger->information("Preparing server params");
 
 	Poco::Net::HTTPServerParams::Ptr params{ new Poco::Net::HTTPServerParams{} };
 		params->setMaxQueued(50);
 		params->setMaxThreads(4);
 
-	console_logger.information("Reading port from config");
+	this->console_logger->information("Reading port from config");
 
 	auto port = std::stoi(Poco::Environment::get("POCO_SERVER_PORT"));
 
 	std::stringstream ss;
 
 	ss.str(""); ss << termcolor::colorize << termcolor::green << "PORT " << port << termcolor::reset << ", preparing socket" << termcolor::nocolorize;
-	console_logger.information(ss.str());
+	this->console_logger->information(ss.str());
 
 	Poco::Net::ServerSocket socket{ static_cast<Poco::UInt16>(port) };
 
-	console_logger.information("Creating fabric");
+	this->console_logger->information("Creating fabric");
 
-	RequestFactory::Ptr request_factory{ new RequestFactory{ &console_logger } };
+	RequestFactory::Ptr request_factory{ new RequestFactory{ this->console_logger } };
 
-	console_logger.information("Creating server");
+	this->console_logger->information("Creating server");
 
 	Poco::Net::HTTPServer server{ request_factory, socket, params };
 
 	ss.str(""); ss << termcolor::colorize << termcolor::green << "STARTING SERVER" << termcolor::reset << termcolor::nocolorize;
-	console_logger.information(ss.str());
+	this->console_logger->information(ss.str());
 
 	server.start();
 
 	waitForTerminationRequest();
 
 	ss.str(""); ss << termcolor::colorize << termcolor::green << "STOPPING SERVER" << termcolor::reset << termcolor::nocolorize;
-	console_logger.information(ss.str());
+	this->console_logger->information(ss.str());
 
 	server.stop();
 
