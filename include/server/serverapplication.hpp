@@ -20,13 +20,13 @@
 
 	#include <termcolor/termcolor.hpp>
 
-	#include <server/handlers/htmlhandler.hpp>
-	#include <server/handlers/errorhtmlhandler.hpp>
-	#include <server/handlers/imghandler.hpp>
-	#include <server/handlers/csshandler.hpp>
-	#include <server/handlers/jshandler.hpp>
+	#include "server/handlers/htmlhandler.hpp"
+	#include "server/handlers/errorhtmlhandler.hpp"
+	#include "server/handlers/imghandler.hpp"
+	#include "server/handlers/csshandler.hpp"
+	#include "server/handlers/jshandler.hpp"
 
-	#include <server/base.hpp>
+	#include "server/base.hpp"
 
 	namespace PWS {
 

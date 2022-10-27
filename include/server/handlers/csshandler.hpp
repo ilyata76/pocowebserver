@@ -20,7 +20,7 @@
 
 	#include <termcolor/termcolor.hpp>
 
-	#include <pws_config.h>
+	#include "pws_config.h"
 
 	namespace PWS {
 

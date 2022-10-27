@@ -16,7 +16,7 @@
 	#include <termcolor/termcolor.hpp>
 	#include <toml/toml.hpp>
 
-	#include <pws_config.h>
+	#include "pws_config.h"
 
 	namespace PWS {
 		bool loadEnvironment();

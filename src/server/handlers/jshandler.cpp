@@ -1,4 +1,4 @@
-#include <server/handlers/jshandler.hpp>
+#include "server/handlers/jshandler.hpp"
 
 PWS::JSHandler::JSHandler() : uri(NULL) {
 	//
