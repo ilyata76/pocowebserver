@@ -1,0 +1,24 @@
+version: '3.8'
+
+services:
+
+  # poco-server:
+  #   build: ./poco_app
+  #   ports:
+  #     - "80:80"
+
+  db:
+    image: postgres:15.0-alpine
+    container_name: postgresql
+    ports:
+      - "5432:5432"
+    environment:
+      POSTGRES_DB: poco
+      POSTGRES_PASSWORD: root
+      POSTGRES_USER: admin
+      PGDATA: /pgdata 
+    restart: always
+    volumes:
+      - ./data/postgres_init/init.sql:/docker-entrypoint-initdb.d/init.sql # инициализация SQL-ом
+      - ./data/postgres_data:/pgdata
+    stdin_open: true # docker run -i

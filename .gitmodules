@@ -1,9 +1,9 @@
-[submodule "libs/poco"]
-	path = libs/poco
+[submodule "poco_app/libs/poco"]
+	path = poco_app/libs/poco
 	url = git@github.com:pocoproject/poco.git
-[submodule "libs/toml"]
-	path = libs/toml
+[submodule "poco_app/libs/toml"]
+	path = poco_app/libs/toml
 	url = git@github.com:ToruNiina/toml11.git
-[submodule "libs/termcolor"]
-	path = libs/termcolor
+[submodule "poco_app/libs/termcolor"]
+	path = poco_app/libs/termcolor
 	url = git@github.com:ikalnytskyi/termcolor.git

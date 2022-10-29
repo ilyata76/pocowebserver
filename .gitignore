@@ -32,6 +32,7 @@
 *.app
 
 # Folders
-.vscode
-.vs
-build
+.vscode/
+.vs/
+poco_app/build/
+data/postgres_data/
