@@ -4,12 +4,11 @@ WORKDIR /poco_app
 
 COPY . .
 
-ENV POCO_SERVER_PORT=80
+ARG ARG_USE_FIND_POSTGRES_CMAKE
+ENV USE_FIND_POSTGRES_CMAKE=${ARG_USE_FIND_POSTGRES_CMAKE}
 
-EXPOSE ${POCO_SERVER_PORT}
-
-RUN apt-get -y update && apt-get -y install gcc && apt-get -y install g++ && apt-get -y install cmake
-
-RUN mkdir build && cmake -S . -B build && cmake --build build
+RUN apt-get -y update && apt-get -y install gcc g++ cmake
+RUN apt-get -y install libpq-dev postgresql-server-dev-all
+RUN mkdir build && cmake -E env USE_FIND_POSTGRES_CMAKE=${USE_FIND_POSTGRES_CMAKE} cmake -S . -B build && cmake --build build
 
 CMD ["build/bin/pocowebserver"]

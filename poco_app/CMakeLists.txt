@@ -3,6 +3,18 @@ set (PWS pocowebserver)
 
 project (${PWS} VERSION 0.0.1)
 
+option(ENABLE_DATA_POSTGRESQL "data postgres" ON)
+option(USE_FIND_POSTGRESQL "instead of ENV POSTGRES_ROOT" OFF)
+
+if (DEFINED ENV{USE_FIND_POSTGRES_CMAKE})
+    message("USE FIND POSTGRES? : " $ENV{USE_FIND_POSTGRES_CMAKE})
+    if($ENV{USE_FIND_POSTGRES_CMAKE} STREQUAL "true")
+        set(USE_FIND_POSTGRESQL ON)
+    else()
+        set(USE_FIND_POSTGRESQL OFF)
+    endif()
+endif()
+
 set(CMAKE_LIBRARY_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_ARCHIVE_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/lib")
 set(CMAKE_RUNTIME_OUTPUT_DIRECTORY "${CMAKE_BINARY_DIR}/bin")
@@ -11,6 +23,25 @@ set(CMAKE_CXX_STANDARD 17)
 set (ENTRYPOINT_PWS
 	"${CMAKE_CURRENT_LIST_DIR}/src/main.cpp"
 ) 
+
+if (USE_FIND_POSTGRESQL)
+    find_package(PostgreSQL REQUIRED)
+else()
+    if (NOT DEFINED ENV{POSTGRES_ROOT})
+        message(FATAL_ERROR "\n [PWS] POSTGRES_ROOT can't be an empty string \n [PWS] Example (in build folder): cmake -E env POSTGRES_ROOT=path/to/postgres cmake ..")
+    endif()
+
+    if ($ENV{POSTGRES_ROOT} STREQUAL "")
+        message(FATAL_ERROR "\n [PWS] POSTGRES_ROOT can't be an empty string \n [PWS] Example (in build folder): cmake -E env POSTGRES_ROOT=path/to/postgres cmake ..")
+    endif()
+
+    message("[PWS] The variable of POSTRESROOT is set: " $ENV{POSTGRES_ROOT})
+
+    list(APPEND CMAKE_PREFIX_PATH "$ENV{POSTGRES_ROOT}")
+    set(PostgreSQL_ROOT "$ENV{POSTGRES_ROOT}")
+
+endif(USE_FIND_POSTGRESQL)
+
 
 set (HEADERS_PWS
     "${CMAKE_CURRENT_LIST_DIR}/include/server/serverapplication.hpp"
@@ -88,8 +119,8 @@ add_executable(
             Poco::Foundation 
             Poco::Net 
             Poco::Util
-            # Poco::Data
-            # Poco::DataPostgreSQL
+            Poco::Data
+            Poco::DataPostgreSQL
     ) 
 
     target_link_libraries(

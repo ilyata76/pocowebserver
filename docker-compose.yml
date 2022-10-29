@@ -3,7 +3,10 @@ version: '3.8'
 services:
 
   poco-server:
-    build: ./poco_app
+    build: 
+      context: ./poco_app
+      args:
+        ARG_USE_FIND_POSTGRES_CMAKE: ${USE_FIND_POSTGRES_CMAKE}
     ports:
       - "${POCO_SERVER_PORT}:${POCO_SERVER_PORT}"
     environment:
@@ -13,7 +16,12 @@ services:
       POSTGRES_DB_HOST: ${POSTGRES_DB_HOST}
       POSTGRES_PORT: ${POSTGRES_PORT}
       POCO_SERVER_PORT: ${POCO_SERVER_PORT}
-      
+    depends_on:
+      - db
+    networks:
+      default:
+        ipv4_address: 172.16.1.5
+
   db:
     image: postgres:15.0-alpine
     container_name: postgresql
@@ -28,4 +36,15 @@ services:
     volumes:
       - ./data/postgres_init/init.sql:/docker-entrypoint-initdb.d/init.sql # инициализация SQL-ом
       - ./data/postgres_data:/pgdata
+    networks:
+      default:
+        ipv4_address: ${POSTGRES_DB_HOST}
     stdin_open: true # docker run -i
+
+
+networks:
+  default:
+    driver: bridge
+    ipam:
+      config:
+        - subnet: 172.16.1.0/24

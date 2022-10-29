@@ -3,6 +3,8 @@
 #ifndef SERVERAPPLICATION_HPP
 #define SERVERAPPLICATION_HPP
 
+	#include <iostream>
+
 	#include <Poco/Net/HTTPServer.h>
 	#include <Poco/URI.h>	
 	#include <Poco/Path.h>
@@ -19,6 +21,16 @@
 	#include <toml/toml.hpp>
 
 	#include <termcolor/termcolor.hpp>
+
+	#include <Poco/Data/PostgreSQL/Connector.h>
+	#include <Poco/Data/PostgreSQL/PostgreSQL.h>
+	#include <Poco/Data/PostgreSQL/PostgreSQLException.h>
+	#include <Poco/Data/PostgreSQL/SessionImpl.h>
+	#include <Poco/Data/PostgreSQL/Extractor.h>
+
+	#include <Poco/Data/Statement.h>
+
+	#include <Poco/Environment.h>
 
 	#include "server/handlers/htmlhandler.hpp"
 	#include "server/handlers/errorhtmlhandler.hpp"
