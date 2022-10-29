@@ -20,6 +20,8 @@ set (HEADERS_PWS
         "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/jshandler.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/imghandler.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/include/server/handlers/errorhtmlhandler.hpp"
+    "${CMAKE_CURRENT_LIST_DIR}/include/server/api/api.hpp"
+        "${CMAKE_CURRENT_LIST_DIR}/include/server/api/getUsers.hpp"    
 )
 
 set(SOURCES_PWS
@@ -30,6 +32,8 @@ set(SOURCES_PWS
         "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/jshandler.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/imghandler.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/src/server/handlers/errorhtmlhandler.cpp"
+    "${CMAKE_CURRENT_LIST_DIR}/src/server/api/api.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/src/server/api/getUsers.cpp"
 )
 
 set(RESOURCES_PWS
