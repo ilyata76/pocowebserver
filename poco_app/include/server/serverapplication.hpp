@@ -37,10 +37,11 @@
 		class RequestFactory : public Poco::Net::HTTPRequestHandlerFactory {
 				
 				Poco::Logger::Ptr console_logger;
+				PWS::PostgreSQLSession* database_session;
 			
 			public:
 				
-				RequestFactory(Poco::Logger::Ptr console_logger);
+				RequestFactory(Poco::Logger::Ptr console_logger, PWS::PostgreSQLSession* database_session);
 
 				Poco::Net::HTTPRequestHandler* createRequestHandler(const Poco::Net::HTTPServerRequest& request) override;
 		
@@ -49,8 +50,10 @@
 		class Server : public Poco::Util::ServerApplication {
 
 			Poco::Logger::Ptr console_logger;
+			PWS::PostgreSQLSession* database_session;
 
 			void initialize(Poco::Util::Application& self) override;
+			void uninitialize() override;
 
 			int main(const std::vector<std::string>& args) override;
 

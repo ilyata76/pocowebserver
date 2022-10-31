@@ -1,8 +1,9 @@
-version: '3.8'
+version: '3.9'
 
 services:
 
   poco-server:
+    container_name: poco-server
     build: 
       context: ./poco_app
       args:
@@ -17,7 +18,8 @@ services:
       POSTGRES_PORT: ${POSTGRES_PORT}
       POCO_SERVER_PORT: ${POCO_SERVER_PORT}
     depends_on:
-      - db
+      db:
+        condition: service_healthy
     networks:
       default:
         ipv4_address: 172.16.1.5
@@ -40,7 +42,12 @@ services:
       default:
         ipv4_address: ${POSTGRES_DB_HOST}
     stdin_open: true # docker run -i
-
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -d ${POSTGRES_DB_NAME} -U ${POSTGRES_USER_NAME}"]
+      interval: 1m
+      timeout: 30s
+      retries: 5
+      start_period: 30s
 
 networks:
   default:
