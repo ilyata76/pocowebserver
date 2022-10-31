@@ -9,6 +9,10 @@ int main(int argc, char** argv) {
 		PWS::Server app;
 		return app.run(argc, argv);
 
+	} catch (Poco::DataException& exc) {
+		std::cerr << exc.displayText() << std::endl;
+	} catch (Poco::Data::PostgreSQL::PostgreSQLException& exc) {
+		std::cerr << exc.displayText() << std::endl;
 	} catch (Poco::Exception& exc) { 
 		std::cerr << exc.displayText() << std::endl;
 		return Poco::Util::Application::EXIT_SOFTWARE;

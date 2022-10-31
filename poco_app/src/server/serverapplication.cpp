@@ -116,33 +116,12 @@ int PWS::Server::main(const std::vector<std::string>& args) {
 	this->console_logger->information(ss.str());
 
 	//////////////////////////////////////
-
-	std::stringstream connectionString;
-	connectionString << "host=" << Poco::Environment::get("POSTGRES_DB_HOST")
-		<< " port=" << Poco::Environment::get("POSTGRES_PORT")
-		<< " dbname=" << Poco::Environment::get("POSTGRES_DB_NAME")
-		<< " user=" << Poco::Environment::get("POSTGRES_USER_NAME")
-		<< " password=" << Poco::Environment::get("POSTGRES_USER_PASSWORD");
-
-	Poco::Data::PostgreSQL::Connector connector{};
-	auto x = connector.createSession(connectionString.str().c_str());
-	std::cout << connector.name();
-	std::cout << x->isGood();
-
-	Poco::Data::Statement st{ x->createStatementImpl() };
-
-	struct Person { std::string fname; std::string lname; } person;
-
-	st << "SELECT first_name, last_name FROM test1;",
-		Poco::Data::Keywords::into(person.fname),
-		Poco::Data::Keywords::into(person.lname),
-		Poco::Data::Keywords::range(0, 1);
-
-	st.execute();
-	this->console_logger->warning(person.fname);
-	std::cout << person.fname << person.lname;
-
-	/// //////////////////////////////////////
+	// 
+	// 
+	// 
+	// 
+	// 
+	//////////////////////////////////////
 
 	server.start();
 

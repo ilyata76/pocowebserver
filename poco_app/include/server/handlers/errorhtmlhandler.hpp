@@ -22,6 +22,8 @@
 
 	#include "pws_config.h"
 
+	#include "db/dbhandler.hpp"
+
 	namespace PWS {
 
 		class ErrorHTMLHandler : public Poco::Net::HTTPRequestHandler {
