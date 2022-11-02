@@ -13,8 +13,9 @@ void PWS::APIUsersHandler::handleRequest(Poco::Net::HTTPServerRequest& request, 
 	response.setContentType("text\r\n");
 
 	db_session->beginTransaction();
-	
-	Poco::Data::Statement statement(db_session->getSession());
+
+	auto sess = db_session->getSession();
+	Poco::Data::Statement statement(sess);
 
 	typedef Poco::Tuple<std::string, std::string> Person;
 	std::vector<Person> people;
