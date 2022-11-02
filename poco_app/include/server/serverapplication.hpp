@@ -29,6 +29,7 @@
 	#include "server/handlers/jshandler.hpp"
 
 	#include "server/base.hpp"
+	#include "server/api/api.hpp"
 
 	#include "db/dbhandler.hpp"
 

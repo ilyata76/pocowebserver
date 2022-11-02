@@ -28,8 +28,8 @@
 				PostgreSQLSession();
 				PostgreSQLSession(std::string connectionString);
 
-				const Poco::Data::Session * getSessionPtr() const;
-				const Poco::Data::Session getSession() const;
+				Poco::Data::Session * getSessionPtr() const;
+				Poco::Data::Session getSession() const;
 				
 				void closeSession();
 				void openSession();

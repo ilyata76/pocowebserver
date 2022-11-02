@@ -46,6 +46,13 @@ Poco::Net::HTTPRequestHandler* PWS::RequestFactory::createRequestHandler(const P
 		}
 	}
 
+	if (is_api) {
+		APIHandlerFabric fabric{ uri, console_logger, database_session };
+				
+		return fabric.createHandler(uri);
+	}
+		
+
 	//
 	// API
 

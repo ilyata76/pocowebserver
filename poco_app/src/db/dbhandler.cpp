@@ -26,11 +26,11 @@ PWS::PostgreSQLSession::PostgreSQLSession(std::string connection_string) {
 	session = new Poco::Data::Session{ "postgresql", connection_string };
 }
 
-const Poco::Data::Session * PWS::PostgreSQLSession::getSessionPtr() const {
+Poco::Data::Session * PWS::PostgreSQLSession::getSessionPtr() const {
 	return session;
 }
 
-const Poco::Data::Session PWS::PostgreSQLSession::getSession() const {
+Poco::Data::Session PWS::PostgreSQLSession::getSession() const {
 	return *session;
 }
 

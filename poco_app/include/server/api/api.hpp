@@ -13,3 +13,51 @@
 	//statement.execute();
 	//
 	//std::cout << person.fname;
+
+
+#pragma once
+
+#ifndef API_HPP
+#define API_HPP
+
+	#include <ostream>
+	#include <fstream>
+	#include <sstream>
+
+	#include <Poco/Net/HTTPRequestHandler.h>
+	#include <Poco/Net/HTTPServerResponse.h>
+	#include <Poco/Net/HTTPServerRequest.h>
+	#include <Poco/Net/HTTPRequestHandler.h>
+	#include <Poco/StreamCopier.h>
+
+	#include <Poco/URI.h>	
+	#include <Poco/Path.h>
+
+	#include <Poco/Logger.h>
+
+	#include <termcolor/termcolor.hpp>
+
+	#include "pws_config.h"
+	#include "server/api/apicurrenthandler.hpp"
+	#include "server/api/getusers.hpp"
+
+	namespace PWS {
+
+		class APIHandlerFabric {
+			private:
+				Poco::Logger::Ptr console_logger;
+				Poco::URI uri;
+				PostgreSQLSession* db_session;
+			public:
+				APIHandlerFabric();
+				APIHandlerFabric(Poco::URI uri);
+				APIHandlerFabric(Poco::URI uri, Poco::Logger::Ptr console_logger, PostgreSQLSession* db_session);
+
+				PWS::APICurrentHandler* createHandler(Poco::URI uri);
+
+				~APIHandlerFabric();
+		};
+
+	}
+
+#endif // !API_HPP
