@@ -19,6 +19,9 @@
 	#include <Poco/Logger.h>
 	#include <Poco/Tuple.h>
 
+	#include <Poco/JSON/Array.h>
+	#include <Poco/JSON/Object.h>
+
 	#include <termcolor/termcolor.hpp>
 
 	#include "pws_config.h"

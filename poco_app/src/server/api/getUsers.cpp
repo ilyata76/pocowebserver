@@ -12,6 +12,8 @@ void PWS::APIUsersHandler::handleRequest(Poco::Net::HTTPServerRequest& request, 
 	std::ostream& reply = response.send();
 	response.setContentType("text\r\n");
 
+	// DB
+
 	db_session->beginTransaction();
 
 	auto sess = db_session->getSession();
@@ -25,17 +27,35 @@ void PWS::APIUsersHandler::handleRequest(Poco::Net::HTTPServerRequest& request, 
 
 	statement.execute();
 
+	db_session->endTransaction();
+
+	// JSON replying
+
+	Poco::JSON::Object json_users;
+	Poco::JSON::Object json_current_user;
+	std::vector<Poco::JSON::Object> users;
+
 	for (const auto& x : people) {
-		reply << x.get<0>() << " " << x.get<1>() << "\n";
+		json_current_user.set("firstname", x.get<0>());
+		json_current_user.set("secondname", x.get<1>());
+		users.push_back(json_current_user);
 	}
 
-	db_session->endTransaction();
+	json_users.set("count", people.size());
+	json_users.set("users", users);
+	json_users.stringify(reply);
+
+	// LOG
 	
 	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
 		<< termcolor::green << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
 	this->console_logger->information(ss.str());
 
+	// STATUS
+
 	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
+
+	return;
 }
 
 PWS::APIUsersHandler::~APIUsersHandler() {
