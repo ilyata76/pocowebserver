@@ -24,7 +24,8 @@ void PWS::APILoginHandler::handleRequest(
 
 		Poco::JWT::Token token{};
 		token.setType("JWT");
-		token.payload().set(fname, sname);
+		token.payload().set("firstname", fname);
+		token.payload().set("secondname", sname);
 		token.setAlgorithm("HS256");
 
 		Poco::JWT::Signer signer{ Poco::Environment::get("JWT_SECRET_WORD") };

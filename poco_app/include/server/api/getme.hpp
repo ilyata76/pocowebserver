@@ -22,6 +22,10 @@
 	#include <Poco/JSON/Array.h>
 	#include <Poco/JSON/Object.h>
 
+	#include <Poco/JWT/Token.h>
+	#include <Poco/JWT/Signer.h>
+	#include <Poco/JWT/JWTException.h>
+
 	#include <termcolor/termcolor.hpp>
 
 	#include "pws_config.h"
