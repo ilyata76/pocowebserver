@@ -40,6 +40,8 @@
 	#include "pws_config.h"
 	#include "server/api/apicurrenthandler.hpp"
 	#include "server/api/getusers.hpp"
+	#include "server/api/getme.hpp"
+	#include "server/api/postlogin.hpp"
 
 	namespace PWS {
 

@@ -54,6 +54,8 @@ set (HEADERS_PWS
     "${CMAKE_CURRENT_LIST_DIR}/include/server/api/api.hpp"
         "${CMAKE_CURRENT_LIST_DIR}/include/server/api/apicurrenthandler.hpp"    
         "${CMAKE_CURRENT_LIST_DIR}/include/server/api/getusers.hpp"    
+        "${CMAKE_CURRENT_LIST_DIR}/include/server/api/getme.hpp"    
+        "${CMAKE_CURRENT_LIST_DIR}/include/server/api/postlogin.hpp"    
     "${CMAKE_CURRENT_LIST_DIR}/include/db/dbhandler.hpp"    
 )
 
@@ -68,6 +70,8 @@ set(SOURCES_PWS
     "${CMAKE_CURRENT_LIST_DIR}/src/server/api/api.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/src/server/api/apicurrenthandler.cpp"
         "${CMAKE_CURRENT_LIST_DIR}/src/server/api/getusers.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/src/server/api/getme.cpp"
+        "${CMAKE_CURRENT_LIST_DIR}/src/server/api/postlogin.cpp"
     "${CMAKE_CURRENT_LIST_DIR}/src/db/dbhandler.cpp"   
 )
 
@@ -125,6 +129,7 @@ add_executable(
             Poco::Util
             Poco::Data
             Poco::DataPostgreSQL
+            Poco::JWT
     ) 
 
     target_link_libraries(

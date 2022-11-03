@@ -18,6 +18,10 @@ PWS::APICurrentHandler* PWS::APIHandlerFabric::createHandler(Poco::URI uri) {
 
 	if (path.directory(1) == "users") {
 		return new APIUsersHandler{ uri, console_logger, db_session };
+	} else if (path.directory(1) == "me") {
+		return new APIMeHandler{ uri, console_logger, db_session };
+	} else if (path.directory(1) == "login") {
+		return new APILoginHandler{ uri, console_logger, db_session };
 	}
 
 	return nullptr; // TODO: ErrorHandler

@@ -24,6 +24,9 @@ bool PWS::loadEnvironment() {
         
         if (!Poco::Environment::has("POCO_SERVER_PORT"))
             Poco::Environment::set("POCO_SERVER_PORT", std::to_string(data["POCO_SERVER_PORT"].as_integer()));
+        
+        if (!Poco::Environment::has("JWT_SECRET_WORD"))
+            Poco::Environment::set("JWT_SECRET_WORD", static_cast<std::string>(data["JWT_SECRET_WORD"].as_string()));
 
         return true;
 

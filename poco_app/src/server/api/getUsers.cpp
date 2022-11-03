@@ -7,55 +7,65 @@ PWS::APIUsersHandler::APIUsersHandler(Poco::URI uri, Poco::Logger::Ptr console_l
 }
 
 void PWS::APIUsersHandler::handleRequest(Poco::Net::HTTPServerRequest& request, Poco::Net::HTTPServerResponse& response) {
-	Poco::Path path{ uri.getPath() }; std::stringstream ss;
 	
-	std::ostream& reply = response.send();
-	response.setContentType("text\r\n");
+	if (request.getMethod() == "GET") {
+		Poco::Path path{ uri.getPath() }; std::stringstream ss;
 
-	// DB
+		std::ostream& reply = response.send();
+		response.setContentType("text\r\n");
 
-	db_session->beginTransaction();
+		// DB
 
-	auto sess = db_session->getSession();
-	Poco::Data::Statement statement(sess);
+		db_session->beginTransaction();
 
-	typedef Poco::Tuple<std::string, std::string> Person;
-	std::vector<Person> people;
+		auto sess = db_session->getSession();
+		Poco::Data::Statement statement(sess);
 
-	statement << "SELECT first_name, last_name FROM test1;",
-		Poco::Data::Keywords::into(people);
+		typedef Poco::Tuple<std::string, std::string> Person;
+		std::vector<Person> people;
 
-	statement.execute();
+		statement << "SELECT first_name, last_name FROM test1;",
+			Poco::Data::Keywords::into(people);
 
-	db_session->endTransaction();
+		statement.execute();
 
-	// JSON replying
+		db_session->endTransaction();
 
-	Poco::JSON::Object json_users;
-	Poco::JSON::Object json_current_user;
-	std::vector<Poco::JSON::Object> users;
+		// JSON replying
 
-	for (const auto& x : people) {
-		json_current_user.set("firstname", x.get<0>());
-		json_current_user.set("secondname", x.get<1>());
-		users.push_back(json_current_user);
+		Poco::JSON::Object json_users;
+		Poco::JSON::Object json_current_user;
+		std::vector<Poco::JSON::Object> users;
+
+		for (const auto& x : people) {
+			json_current_user.set("firstname", x.get<0>());
+			json_current_user.set("secondname", x.get<1>());
+			users.push_back(json_current_user);
+		}
+
+		json_users.set("count", people.size());
+		json_users.set("users", users);
+		json_users.stringify(reply);
+
+		// LOG
+
+		ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
+			<< termcolor::green << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
+		this->console_logger->information(ss.str());
+
+		// STATUS
+
+		response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
+
+		return;
+	} else {
+		std::stringstream ss;
+		ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
+			<< termcolor::red << Poco::Net::HTTPServerResponse::HTTP_BAD_REQUEST << termcolor::reset << termcolor::nocolorize;
+		this->console_logger->information(ss.str());
+
+		response.setStatus(Poco::Net::HTTPServerResponse::HTTP_BAD_REQUEST);
 	}
-
-	json_users.set("count", people.size());
-	json_users.set("users", users);
-	json_users.stringify(reply);
-
-	// LOG
-	
-	ss.str(""); ss << termcolor::colorize << termcolor::cyan << request.getMethod() << termcolor::reset << "  |  " << termcolor::bright_blue << request.getURI() << termcolor::reset << "  |  "
-		<< termcolor::green << Poco::Net::HTTPServerResponse::HTTP_OK << termcolor::reset << termcolor::nocolorize;
-	this->console_logger->information(ss.str());
-
-	// STATUS
-
-	response.setStatus(Poco::Net::HTTPServerResponse::HTTP_OK);
-
-	return;
 }
 
 PWS::APIUsersHandler::~APIUsersHandler() {
